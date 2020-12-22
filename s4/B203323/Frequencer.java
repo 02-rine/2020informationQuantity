@@ -154,8 +154,8 @@ public class Frequencer implements FrequencerInterface{
         // 演習の内容は、適切なsubByteStartIndexとsubByteEndIndexを定義することである。
         int first = subByteStartIndex(start, end);
         int last1 = subByteEndIndex(start, end);
-        System.out.println("first : " + first);
-        System.out.println("last1 : " + last1);
+        // System.out.println("first : " + first);
+        // System.out.println("last1 : " + last1);
         return last1 - first;
     }
     // 変更してはいけないコードはここまで。
@@ -236,12 +236,33 @@ public class Frequencer implements FrequencerInterface{
         // if target_start_end is "Ho ", it will return 6.
         //
         // ここにコードを記述せよ。
-        int startIndex =-1;
+
+        int startIndex = -1; // 出現が始まる位置を格納
+
+        // 線形サーチによる目的の文字列の出現が始まる位置の探索
+        /*
         for(int i = 0; i < suffixArray.length; i++){
           if(targetCompare(suffixArray[i], start, end) == 0){
             startIndex = i;
             break;
           }
+        }
+        */
+        // 二分探索による目的の文字列の出現が始まる位置の探索
+        int left = 0;
+        int right = suffixArray.length;
+        int center = -1;
+        while(left <= right){
+          center = (left + right) / 2;
+          if(center < 0 || suffixArray.length <= center) break;
+          // 探索する文字が文字列にある
+          if(targetCompare(suffixArray[center], start, end) == 0){
+            startIndex = center;
+            right = center - 1;
+          // 文字列の右側を探索する
+          }else if(targetCompare(suffixArray[center], start, end) == 1) right = center - 1;
+          // 文字列の左側を探索する
+          else if(targetCompare(suffixArray[center], start, end) == -1) left = center + 1;
         }
         return startIndex;
     }
@@ -274,7 +295,10 @@ public class Frequencer implements FrequencerInterface{
         // if target_start_end is"i", it will return 9 for "Hi Ho Hi Ho".
         //
         //　ここにコードを記述せよ
-        int endIndex = -1;
+
+        int endIndex = -1; // 出現しなくなる場所の位置を格納
+        // 線形サーチによる目的の文字列の出現しなくなる場所の探索
+        /*
         for(int i = 0; i < suffixArray.length; i++){
           if(targetCompare(suffixArray[i], start, end) == 0){
             if(targetCompare(suffixArray[i + 1], start, end) == 1){
@@ -282,6 +306,23 @@ public class Frequencer implements FrequencerInterface{
               break;
             }
           }
+        }
+        */
+        // 二分探索による目的の文字列の出現しなくなる場所の探索
+        int left = 0;
+        int right = suffixArray.length;
+        int center = -1;
+        while(left <= right){
+          center = (left + right) / 2;
+          if(center < 0 || suffixArray.length <= center) break;
+          // 探索する文字が文字列にある
+          if(targetCompare(suffixArray[center], start, end) == 0){
+            endIndex = center + 1;
+            left = center + 1;
+          // 文字列の右側を探索する
+          }else if(targetCompare(suffixArray[center], start, end) == 1) right = center - 1;
+          // 文字列の左側を探索する
+          else if(targetCompare(suffixArray[center], start, end) == -1) left = center + 1;
         }
         return endIndex;
     }
