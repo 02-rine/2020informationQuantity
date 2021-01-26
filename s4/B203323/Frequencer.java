@@ -347,7 +347,7 @@ public class Frequencer implements FrequencerInterface{
     // 減点の対象である。
     public static void main(String[] args) {
         Frequencer frequencerObject;
-        // try { // テストに使うのに推奨するmySpaceの文字は、"ABC", "CBA", "HHH", "Hi Ho Hi Ho".
+        try { // テストに使うのに推奨するmySpaceの文字は、"ABC", "CBA", "HHH", "Hi Ho Hi Ho".
             frequencerObject = new Frequencer();
             frequencerObject.setSpace("ABC".getBytes());
             frequencerObject.printSuffixArray();
@@ -380,9 +380,8 @@ public class Frequencer implements FrequencerInterface{
             System.out.print("Freq = "+ result+" ");
             if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
         }
-        // catch(Exception e) {
-        //     System.out.println("STOP");
-        //     System.out.print(e);
-
-    // }
+        catch(Exception e) {
+            System.out.println("STOP");
+          }
+    }
 }
